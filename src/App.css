@@ -1,0 +1,54 @@
+.App {
+  text-align: center;
+}
+.header{
+  background-image: linear-gradient(to right, #434343 0%, black 100%);
+  border-radius: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+}
+.main{
+  background-image: linear-gradient(to right, #868f96 0%, #596164 100%);
+  border-radius: 20px;
+  box-shadow: 10px 10px;
+}
+.tournament{
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  font-size: 140%;
+}
+.awayTeam{
+  position: absolute;
+  right: 0%;
+  color: white;
+  font-weight: bold;
+  font-size: 120%;
+}
+.homeTeam{
+  position: absolute;
+  left: 0%;
+  color: white;
+  font-weight: bold;
+  font-size: 120%;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
