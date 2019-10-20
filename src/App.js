@@ -27,7 +27,7 @@ class App extends Component {
   getPolls() {
     axios
        // Host the data here
-      .get("https://api.myjson.com/bins/19x2qi")
+      .get("https://s3-eu-west-1.amazonaws.com/test-assignment/test-assignment.json")
       // get the response and store the data from JSON, and change the loading state here
       .then(({ data })=> {
         var temp = JSON.parse(JSON.stringify(data));
@@ -106,11 +106,6 @@ class App extends Component {
     return items;
   }
   }
-  /*handleFormSubmit = () => {
-    const { votes } = this.state;
-    localStorage.setItem('votes', votes);
-  };*/
-
   // Rendering the data and using it to get our output
   render() {
     const {  click, isLoading, pollingData, pollAnswers, voteAnswer  } = this.state;
