@@ -33,11 +33,10 @@ class App extends Component {
       // get the response and store the data from JSON, and change the loading state here
       .then(({ data }) => {
         var temp = JSON.parse(JSON.stringify(data));
-        const { click } = this.state;
         var answer_in_local_storage = this.handleStorage();
         // Generating random Sports Polls
         var click_temp = Math.floor(Math.random() * Math.floor(temp.length));
-        console.log(click);
+        console.log(click_temp);
         this.setState({
           pollingData: data,
           /* awayTeam:awayTeam,
@@ -102,12 +101,12 @@ class App extends Component {
     var items = localStorage.getItem(click);
     if (items === undefined || items === null || items.length === 0) {
       return "";
-      
     } else {
       console.log("" + items);
       return items;
     }
   };
+  // To Clear the Local Storage Data
   clearData = () => {
     window.localStorage.clear();
   };
@@ -132,6 +131,10 @@ class App extends Component {
     } else {
       answers = items;
     }
+    if (items === 18) {
+      alert("You have voted all the Events")
+    }
+    
     // Display the data
     return (
       <React.Fragment>
@@ -153,12 +156,15 @@ class App extends Component {
             question={pollQuestion}
             answers={pollAnswers}
             onVote={this.handleVote}
-            noStorage vote={this.handleStorage()}
+            noStorage
+            vote={this.handleStorage()}
           />
         </div>
         <div>
-          <button className="button" onClick={this.clearData}>Reset Voting</button>
-          </div>
+          <button className="button" onClick={this.clearData}>
+            Reset Voting
+          </button>
+        </div>
       </React.Fragment>
     );
   }
