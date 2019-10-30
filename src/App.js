@@ -126,8 +126,9 @@ class App extends Component {
       name = "Tournament Name:" + JSON.stringify(temp2["name"]);
     }
     var items = localStorage.getItem(click);
-    var itemsLength= localStorage.getItem(click.length);
+    var itemsLength= Object.entries(localStorage);
     var answers = pollAnswers;
+    console.log(itemsLength);
     if (items === undefined || items === null || items.length === 0) {
     } else {
       answers = items;
