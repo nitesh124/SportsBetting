@@ -126,7 +126,7 @@ class App extends Component {
       name = "Tournament Name:" + JSON.stringify(temp2["name"]);
     }
     var items = localStorage.getItem(click);
-    var itemsLength= Object.keys(localStorage.length);
+    var itemsLength = Object.keys(localStorage.length);
     var answers = pollAnswers;
     console.log(itemsLength);
     if (items === undefined || items === null || items.length === 0) {
@@ -134,9 +134,9 @@ class App extends Component {
       answers = items;
     }
     if (itemsLength === 18) {
-      alert("You have voted all the Events")
+      alert("You have voted all the Events");
     }
-    
+
     // Display the data
     return (
       <React.Fragment>
