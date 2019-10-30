@@ -1,54 +1,54 @@
-.App {
-  text-align: center;
-}
-.header{
+.header {
   background-image: linear-gradient(to right, #434343 0%, black 100%);
   border-radius: 20px;
   text-align: center;
   font-weight: bold;
   color: white;
+  margin: 0;
+  padding: 0;
 }
-.main{
+
+.main {
   background-image: linear-gradient(to right, #868f96 0%, #596164 100%);
   border-radius: 20px;
   box-shadow: 10px 10px;
 }
-.tournament{
+
+.tournament {
   text-align: center;
   font-weight: bold;
-  color: white;
+  color: black;
   font-size: 140%;
 }
-.awayTeam{
+
+.homeTeamTitle {
   position: absolute;
-  right: 0%;
-  color: white;
+  left: 2%;
+  color: black;
   font-weight: bold;
   font-size: 120%;
 }
-.homeTeam{
+
+.homeTeam {
   position: absolute;
   left: 0%;
-  color: white;
+  color: #3a3737;
   font-weight: bold;
   font-size: 120%;
 }
 
-.App-logo {
-  height: 40vmin;
+.awayTeamTitle {
+  position: absolute;
+  right: 3%;
+  color: black;
+  font-weight: bold;
+  font-size: 120%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #09d3ac;
+.awayTeam {
+  position: absolute;
+  right: 0%;
+  color: #3a3737;
+  font-weight: bold;
+  font-size: 120%;
 }

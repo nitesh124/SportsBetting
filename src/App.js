@@ -27,10 +27,15 @@ class App extends Component {
   // Make a axious request to use data
   getPollData() {
     axios
+
       // Host the data here
       .get(
         "https://s3-eu-west-1.amazonaws.com/test-assignment/test-assignment.json"
       )
+
+       // Host the data here
+      .get("https://s3-eu-west-1.amazonaws.com/test-assignment/test-assignment.json")
+
       // get the response and store the data from JSON, and change the loading state here
       .then(({ data }) => {
         var temp = JSON.parse(JSON.stringify(data));
