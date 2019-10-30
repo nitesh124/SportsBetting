@@ -126,12 +126,13 @@ class App extends Component {
       name = "Tournament Name:" + JSON.stringify(temp2["name"]);
     }
     var items = localStorage.getItem(click);
+    var itemsLength= localStorage.getItem(click.length);
     var answers = pollAnswers;
     if (items === undefined || items === null || items.length === 0) {
     } else {
       answers = items;
     }
-    if (items === 18) {
+    if (itemsLength === 17) {
       alert("You have voted all the Events")
     }
     
