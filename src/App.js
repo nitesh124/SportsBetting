@@ -21,21 +21,15 @@ class App extends Component {
     pollAnswers: [...pollAnswers],
     voteAnswer: ""
   };
-
   //On click Increase the click count
 
   // Make a axious request to use data
   getPollData() {
     axios
-
       // Host the data here
       .get(
         "https://s3-eu-west-1.amazonaws.com/test-assignment/test-assignment.json"
       )
-
-       // Host the data here
-      .get("https://s3-eu-west-1.amazonaws.com/test-assignment/test-assignment.json")
-
       // get the response and store the data from JSON, and change the loading state here
       .then(({ data }) => {
         var temp = JSON.parse(JSON.stringify(data));
@@ -44,10 +38,6 @@ class App extends Component {
         // Generating random Sports Polls
         var click_temp = Math.floor(Math.random() * Math.floor(temp.length));
         console.log(click);
-        for(var key in localStorage){
-          console.log(key);
-          data.splice(key,1);
-        }
         this.setState({
           pollingData: data,
           /* awayTeam:awayTeam,
@@ -67,26 +57,17 @@ class App extends Component {
   }
   //To increment the vote on select
   handleVote = voteAnswer => {
-    const { pollAnswers, click,pollingData } = this.state;
+    const { pollAnswers, click } = this.state;
     var items = localStorage.getItem(click);
     if (items === undefined || items === null || items.length === 0) {
       const votes = 0;
       var temp;
       const newPollAnswers = pollAnswers.map(answer => {
-        console.log(pollingData.length);
-
         if (answer.option === voteAnswer) {
           answer.votes++;
           temp = answer;
-          // pollingData.splice(click,1);
-          
-          // pollAnswers.pop(answer);
           window.location.reload();
           /* window.onload = window.localStorage.clear(); */
-        }
-        console.log(pollingData.length);
-        if(pollingData.length===1){
-          window.alert("You have successfully voted for all events");
         }
         return answer;
       });
@@ -107,7 +88,6 @@ class App extends Component {
           temp = answer;
         }
         window.location.reload();
-        
       });
       this.setState({
         pollAnswers: newPollAnswers,
@@ -128,9 +108,9 @@ class App extends Component {
       return items;
     }
   };
-  clearStorage =() =>{
-    window.localStorage.clear()
-  }
+  clearData = () => {
+    window.localStorage.clear();
+  };
   // Rendering the data and using it to get our output
   render() {
     const { click, pollingData, pollAnswers } = this.state;
@@ -156,7 +136,6 @@ class App extends Component {
     return (
       <React.Fragment>
         <div>
-        <div>
           <h1 className="header">Sports Polling</h1>
         </div>
         <div className="main">
@@ -175,10 +154,11 @@ class App extends Component {
             answers={pollAnswers}
             onVote={this.handleVote}
             noStorage vote={this.handleStorage()}
-          /> 
+          />
         </div>
-        </div>
-        <button variant="primary" size="lg" type="submit" onClick={this.clearStorage}>Vote From First</button>
+        <div>
+          <button className="button" onClick={this.clearData}>Reset Voting</button>
+          </div>
       </React.Fragment>
     );
   }
