@@ -1,43 +1,50 @@
-import './App.css';
-import React, { Component }from 'react';
-import axios from 'axios';
-import Poll from 'react-polls';
+import "./App.css";
+import React, { Component } from "react";
+import axios from "axios";
+import Poll from "react-polls";
 
 //Edit Poll Question and Options Here
-const pollQuestion = 'Which Team Will Win?'
+const pollQuestion = "Which Team Will Win?";
 const pollAnswers = [
-  { option: 'Home Team', votes: 0 },
-  { option: 'Draw', votes: 0 },
-  { option: 'Away Team', votes: 0 }
-] 
+  { option: "Home Team", votes: 0 },
+  { option: "Draw", votes: 0 },
+  { option: "Away Team", votes: 0 }
+];
 
 class App extends Component {
-   // Here State will apply to the posts object which is set to loading by default
+  // Here State will apply to the posts object which is set to loading by default
   state = {
     pollingData: [],
     isLoading: true,
     click: -1,
     errors: null,
     pollAnswers: [...pollAnswers],
-    voteAnswer: ''
+    voteAnswer: ""
   };
-   //On click Increase the click count
-  
+
+  //On click Increase the click count
+
   // Make a axious request to use data
-  getPolls() {
+  getPollData() {
     axios
-       // Host the data here
-      .get("https://api.myjson.com/bins/19x2qi")
+      // Host the data here
+      .get(
+        "https://s3-eu-west-1.amazonaws.com/test-assignment/test-assignment.json"
+      )
       // get the response and store the data from JSON, and change the loading state here
-      .then(({ data })=> {
+      .then(({ data }) => {
         var temp = JSON.parse(JSON.stringify(data));
         const { click } = this.state;
         var answer_in_local_storage = this.handleStorage();
-    // Generating random Sports Polls
-    var click_temp = Math.floor(Math.random() * Math.floor(temp.length));
-    console.log(click);
-    this.setState({
-          pollingData:data,
+        // Generating random Sports Polls
+        var click_temp = Math.floor(Math.random() * Math.floor(temp.length));
+        console.log(click);
+        for(var key in localStorage){
+          console.log(key);
+          data.splice(key,1);
+        }
+        this.setState({
+          pollingData: data,
           /* awayTeam:awayTeam,
           homeTeam:homeTeam, */
           isLoading: false,
@@ -46,110 +53,128 @@ class App extends Component {
         });
       })
 
-        // If we have trouble connecting we can catch the errors here and update it
+      // If we have trouble connecting we can catch the errors here and update it
       .catch(error => this.setState({ error, isLoading: false }));
   }
-   // Ready to render the data
+  // Ready to render the data
   componentDidMount() {
-    this.getPolls();
+    this.getPollData();
   }
   //To increment the vote on select
- handleVote = voteAnswer => {
-    const { pollAnswers, click } = this.state
+  handleVote = voteAnswer => {
+    const { pollAnswers, click,pollingData } = this.state;
     var items = localStorage.getItem(click);
-    if (items === undefined || items === null || items.length === 0){
-    const votes= 0
-    var temp
-    const newPollAnswers = pollAnswers.map(answer => { 
-      if (answer.option === voteAnswer) {
-        answer.votes++
-        temp = answer
-      }
-      return answer
-    })
-    this.setState({
-      pollAnswers: newPollAnswers,
-      votes:votes
-    })
-    console.log(temp["option"])
-    localStorage.setItem(click, temp["option"])
-  } 
-  // To Check if the Poll has already been answered or not
-  else {
-    
-    const votes= 0
-    var temp
-    const newPollAnswers = pollAnswers.map(answer => { 
-      if (answer.option === items) {
-        answer.votes++
-        temp = answer
-      }
-      return answer
-    })
-    this.setState({
-      pollAnswers: newPollAnswers,
-      votes:votes
-    })
-    alert("you've already voted");
-  }
-    
-  }
+    if (items === undefined || items === null || items.length === 0) {
+      const votes = 0;
+      var temp;
+      const newPollAnswers = pollAnswers.map(answer => {
+        console.log(pollingData.length);
+
+        if (answer.option === voteAnswer) {
+          answer.votes++;
+          temp = answer;
+          // pollingData.splice(click,1);
+          
+          // pollAnswers.pop(answer);
+          window.location.reload();
+          /* window.onload = window.localStorage.clear(); */
+        }
+        console.log(pollingData.length);
+        if(pollingData.length===1){
+          window.alert("You have successfully voted for all events");
+        }
+        return answer;
+      });
+      this.setState({
+        pollAnswers: newPollAnswers,
+        votes: votes
+      });
+      //console.log(temp["option"])
+      localStorage.setItem(click, temp["option"]);
+    }
+    // To Check if the Poll has already been answered or not
+    else {
+      const votes = 0;
+      var temp;
+      const newPollAnswers = pollAnswers.map(answer => {
+        if (answer.option === items) {
+          answer.votes++;
+          temp = answer;
+        }
+        window.location.reload();
+        
+      });
+      this.setState({
+        pollAnswers: newPollAnswers,
+        votes: votes
+      });
+      alert("you've already voted");
+    }
+  };
   // To store data in browser local storage
-  handleStorage= () => {
+  handleStorage = () => {
     const { click } = this.state;
     var items = localStorage.getItem(click);
-    if (items === undefined || items === null || items.length === 0)
-  {
-    return '';
-  } else {
-    console.log(""+items);
-    return items;
+    if (items === undefined || items === null || items.length === 0) {
+      return "";
+      
+    } else {
+      console.log("" + items);
+      return items;
+    }
+  };
+  clearStorage =() =>{
+    window.localStorage.clear()
   }
-  }
-  /*handleFormSubmit = () => {
-    const { votes } = this.state;
-    localStorage.setItem('votes', votes);
-  };*/
-
   // Rendering the data and using it to get our output
   render() {
-    const {  click, isLoading, pollingData, pollAnswers, voteAnswer  } = this.state;
+    const { click, pollingData, pollAnswers } = this.state;
     var temp = JSON.parse(JSON.stringify(pollingData));
     console.log(click);
     var temp2 = JSON.stringify(temp[click]);
-    var homeTeam = '';
-    var awayTeam = '';
-    var name= '';
-    if ( temp2 != undefined) {
+    var homeTeam = "";
+    var awayTeam = "";
+    var name = "";
+    if (temp2 != undefined) {
       temp2 = JSON.parse(temp2);
-      homeTeam = "Home Team:" + JSON.stringify(temp2["homeName"]);
-      awayTeam = "Away Team:" + JSON.stringify(temp2["awayName"]);
+      homeTeam = JSON.stringify(temp2["homeName"]);
+      awayTeam = JSON.stringify(temp2["awayName"]);
       name = "Tournament Name:" + JSON.stringify(temp2["name"]);
     }
     var items = localStorage.getItem(click);
     var answers = pollAnswers;
-    if (items === undefined || items === null || items.length === 0)
-  {
-  } else {
-    answers = items;
-  }
-// Display the data
+    if (items === undefined || items === null || items.length === 0) {
+    } else {
+      answers = items;
+    }
+    // Display the data
     return (
-      
       <React.Fragment>
         <div>
+        <div>
           <h1 className="header">Sports Polling</h1>
-          </div>
+        </div>
         <div className="main">
           <h2 className="tournament">{name}</h2>
-          <a className="homeTeam">{homeTeam}</a>
-          <a className="awayTeam">{awayTeam}</a><br/>
-          <Poll question={pollQuestion} answers={pollAnswers} onVote={this.handleVote} noStorage vote={this.handleStorage()}/>
-          
+          <ul>
+            <a className="homeTeamTitle">Home Team</a>
+            <p className="homeTeam">{homeTeam}</p>
+          </ul>
+          <ul>
+            <a className="awayTeamTitle">Away Team</a>
+            <p className="awayTeam">{awayTeam}</p>
+            <br />
+          </ul>
+          <Poll
+            question={pollQuestion}
+            answers={pollAnswers}
+            onVote={this.handleVote}
+            noStorage vote={this.handleStorage()}
+          /> 
         </div>
-        
+        </div>
+        <button variant="primary" size="lg" type="submit" onClick={this.clearStorage}>Vote From First</button>
       </React.Fragment>
-      
     );
   }
 }
